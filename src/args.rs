@@ -34,6 +34,14 @@ impl Args {
     pub fn matches(&self) -> &ArgMatches {
         &self.0.matches
     }
+
+    pub fn program(&self) -> &str {
+        &self.0.matches.0.value_of("<jq filter>").unwrap()
+    }
+
+    pub fn input(&self) -> &str {
+        &self.0.matches.0.value_of("FILE").unwrap_or("<stdin>")
+    } 
 }
 
 #[derive(Clone, Debug)]

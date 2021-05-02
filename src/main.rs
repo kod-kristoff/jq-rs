@@ -10,13 +10,11 @@ fn main() {
         eprintln!("{}", err);
         std::process::exit(2);
     }
-    // let jq_filter = matches.value_of("<jq filter>").unwrap();
-    // let input = matches.value_of("FILE").unwrap_or("<stdin>");
 }
 
 fn try_main(args: Args) -> Result<()> {
 
-    println!("jq filter: {}", args.jq_filter);
-    println!("Using file '{}' as input", args.input);
+    println!("jq filter: {}", args.program());
+    println!("Using file '{}' as input", args.input());
     Ok(())
 }
