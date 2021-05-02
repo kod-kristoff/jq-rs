@@ -2,7 +2,7 @@ use clap::{App, Arg};
 use clap::{crate_authors, crate_description, crate_name, crate_version};
 
 
-pub fn build_cli() -> App<'static, 'static>  {
+pub fn app() -> App<'static, 'static>  {
     App::new(crate_name!())
         .version(crate_version!())
         .author(crate_authors!())
