@@ -5,7 +5,7 @@ use std::sync::Arc;
 use std::process;
 
 
-use clap;
+// use clap;
 
 use crate::Result;
 use crate::app;
@@ -28,7 +28,7 @@ impl Args {
     pub fn parse() -> Result<Args> {
         let matches = ArgMatches::new(clap_matches(env::args_os())?);
 
-        matches.to_args()
+        matches.into_args()
     }
 
     pub fn matches(&self) -> &ArgMatches {
@@ -52,7 +52,7 @@ impl ArgMatches {
         Self(clap_matches)
     }
 
-    fn to_args(self) -> Result<Args> {
+    fn into_args(self) -> Result<Args> {
         Ok(Args(Arc::new(ArgsImp {
             matches: self,
         })))
