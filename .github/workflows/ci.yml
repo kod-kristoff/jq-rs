@@ -1,8 +1,48 @@
 on: [push, pull_request]
 
-name: Continuous integration
+name: CI
 
 jobs:
+  rustfmt:
+    name: Rustfmt (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      os: [ubuntu-latest]
+      rust: [stable]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions.rs/toolchain@v1
+        with:
+          toolchain: ${{ matrix.rust }}
+          profile: minimal
+          override: true
+      - name: Check rustfmt
+        run: make check-fmt
+
+  build:
+    name: ${{ matrix.task.name }} (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      os: [ubuntu-latest]
+      rust: [stable]
+      task:
+        - name: Clippy
+          run: make check-clippy
+        - name: Unit tests
+          run: make run-all-unit-tests
+        - name: Doc tests
+          run: make run-all-doc-tests
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install Rust ${{ matrix.rust }}
+        uses: actions.rs/toolchain@v1
+        with:
+          toolchain: ${{ matrix.rust }}
+          profile: minimal
+          override: true
+      - name: ${{ matrix.task.name }}
+        run: ${{ matrix.task.run }}
+
   check:
     name: Check
     runs-on: ubuntu-latest
